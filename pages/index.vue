@@ -14,6 +14,7 @@
             </el-input>
           </div>
         </div>
+        <el-button type="primary" @click="registry">mint</el-button>
       </el-col>
     </el-row>
   </div>
@@ -22,9 +23,9 @@
 
 <script>
 import card from "~/components/card.vue";
-import {fetchAllBooks, setLibraryContract, getTronWeb} from "~/plugins/utils"
-import {sampleTx} from "~/plugins/walletConnect"
-import {} from "~/plugins/sns"
+import {fetchAllBooks, setLibraryContract, setupTronWeb} from "../plugins/utils"
+import {recordExists, registry} from "../plugins/sns"
+import {sampleTx} from "../plugins/walletConnect"
 
 export default {
   components: {
@@ -33,11 +34,7 @@ export default {
 
   async mounted() {
     // get tronWeb object 
-    this.posts = getTronWeb();
-    // init contract object
-    // await setLibraryContract();
-    // fetch all books
-    // const books = await fetchAllBooks();
+    setupTronWeb();
 
   },
   data() {
@@ -51,7 +48,14 @@ export default {
       await sampleTx()
     },
     async searchDomainName() {
-      await queryDomainName(this.inputName)
+      let existStatus
+      existStatus = await recordExists(this.inputName)
+      console.log("exist", existStatus)
+    },
+    async registry() {
+      let mintStatus
+      mintStatus = await registry(this.inputName + '.key')
+      console.log("mint status", mintStatus)
     }
   }
 };

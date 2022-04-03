@@ -1,45 +1,48 @@
 //import LibraryABI from './libraryABI'
+import {setup as setupSNS} from './sns'
+import {contractAddress as SNSResolverContractAddress, SNSResolver} from './sns.resolver'
 
 let account = null
-let libraryContract
 let libraryContractAddress = 'TZJbkRf2GCXQds2MzopQ3WhddXyWQGS8Ny' // Paste Contract address here
-let SNSContractAddress = 'TZJbkRf2GCXQds2MzopQ3WhddXyWQGS8Ny' // Paste Contract address here
 let bookRentContract = null
 let snsContract = null
+let snsResolverContract = null
 let tronWeb = null
 
 export const accountAddress = () => {
   return account
 }
 
-export function getTronWeb() {
-  // Obtain the tronweb object injected by tronLink 
+export function getSNSInstance() {
+  return snsContract
+}
+
+export function getSNSResolverInstance() {
+  return snsResolverContract
+}
+
+export function setupTronWeb() {
+  // Obtain the tronweb object injected by tronLink
   var obj = setInterval(async () => {
     if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
       clearInterval(obj)
       tronWeb = window.tronWeb
-      await setLibraryContract()
-      await setSNSContract()
+      await setup()
       console.log("tronWeb successfully detected!")
-      return await fetchAllBooks()
     }
   }, 10)
   setTimeout('', 3000);
 }
 
+export const tronWebInstance = () => {
+  return tronWeb
+}
 
-export async function setLibraryContract() {
-  // TODO: abtain contract Object
+export async function setup() {
   bookRentContract = await tronWeb.contract().at(libraryContractAddress);
-
+  snsContract = await setupSNS();
+  snsResolverContract = new SNSResolver();
 }
-
-export async function setSNSContract() {
-  // TODO: abtain contract Object
-  snsContract = await tronWeb.contract().at(SNSContractAddress);
-
-}
-
 
 export async function postBookInfo(name, description, price) {
   // TODO: call addBook func of library contract
@@ -86,4 +89,13 @@ export async function fetchAllBooks() {
   }
   return books
 
+}
+
+/**
+ * remove ‘.key’ Suffix
+ * @param name
+ * @returns {*}
+ */
+export function nameRemoveSuffix(name) {
+  return name.split('.key')[0]
 }
