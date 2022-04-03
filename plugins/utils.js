@@ -3,7 +3,9 @@
 let account = null
 let libraryContract
 let libraryContractAddress = 'TZJbkRf2GCXQds2MzopQ3WhddXyWQGS8Ny' // Paste Contract address here
+let SNSContractAddress = 'TZJbkRf2GCXQds2MzopQ3WhddXyWQGS8Ny' // Paste Contract address here
 let bookRentContract = null
+let snsContract = null
 let tronWeb = null
 
 export const accountAddress = () => {
@@ -17,6 +19,7 @@ export function getTronWeb() {
       clearInterval(obj)
       tronWeb = window.tronWeb
       await setLibraryContract()
+      await setSNSContract()
       console.log("tronWeb successfully detected!")
       return await fetchAllBooks()
     }
@@ -28,6 +31,12 @@ export function getTronWeb() {
 export async function setLibraryContract() {
   // TODO: abtain contract Object
   bookRentContract = await tronWeb.contract().at(libraryContractAddress);
+
+}
+
+export async function setSNSContract() {
+  // TODO: abtain contract Object
+  snsContract = await tronWeb.contract().at(SNSContractAddress);
 
 }
 

@@ -1,20 +1,30 @@
 <template>
-  <div class="container m-5">
-    <div>
-      <h1 class="title">Decentralized Book Rental</h1>
-      <div class="row">
-        <div class="m-3" v-for="post in posts">
-          <card :bookObject="post" key="post.id" />
+  <div class="container">
+    <el-row>
+      <el-col :span="24">
+        <div class="grid-content bg-purple-white">
+          <div style="padding: 15px;" class="input-container">
+            <el-input placeholder="请输入内容" v-model="inputName" class="input-with-select">
+              <!--              <el-select v-model="select" slot="prepend" placeholder="请选择">-->
+              <!--                <el-option label="Address" value="1"></el-option>-->
+              <!--                <el-option label="订单号" value="2"></el-option>-->
+              <!--                <el-option label="用户电话" value="3"></el-option>-->
+              <!--              </el-select>-->
+              <el-button slot="append" icon="el-icon-search" @click="searchDomainName"></el-button>
+            </el-input>
+          </div>
         </div>
-      </div>
-    </div>
+      </el-col>
+    </el-row>
   </div>
+
 </template>
 
 <script>
 import card from "~/components/card.vue";
-import { fetchAllBooks ,setLibraryContract, getTronWeb } from "~/plugins/utils"
-import { sampleTx } from "~/plugins/walletConnect"
+import {fetchAllBooks, setLibraryContract, getTronWeb} from "~/plugins/utils"
+import {sampleTx} from "~/plugins/walletConnect"
+import {} from "~/plugins/sns"
 
 export default {
   components: {
@@ -32,13 +42,16 @@ export default {
   },
   data() {
     return {
-      posts: [
-      ]
+      posts: [],
+      inputName: ''
     };
   },
   methods: {
     async sendTx() {
       await sampleTx()
+    },
+    async searchDomainName() {
+      await queryDomainName(this.inputName)
     }
   }
 };
@@ -46,30 +59,66 @@ export default {
 
 <style>
 .container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  background-color: #f9fafc;
+  height: 100%;
+  width: 100%;
+  padding: 40px;
 }
 
 .title {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
   color: #35495e;
   letter-spacing: 1px;
 }
+
 .subtitle {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 150;
   font-size: 40px;
   color: #35495e;
   letter-spacing: 1px;
 }
+
+.el-row {
+  margin-bottom: 20px;
+}
+
+.el-col {
+  border-radius: 4px;
+}
+
+.bg-purple-white {
+  background: #fff;
+}
+
+.bg-purple {
+  background: #d3dce6;
+}
+
+.bg-purple-light {
+  background: #e5e9f2;
+}
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 200px;
+  display: block;
+}
+
+.row-bg {
+  padding: 10px 0;
+  background-color: #f9fafc;
+}
+
+.input-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 </style>

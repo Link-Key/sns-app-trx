@@ -1,4 +1,4 @@
-# dapp-ui
+# sns-app-trx
 
 > Nuxt.js project
 
