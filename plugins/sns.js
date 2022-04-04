@@ -24,7 +24,7 @@ export async function setup() {
 
 //registry
 export async function registry(name) {
-  const value = await getRegisteredPrice()
+  let value = await getRegisteredPrice()
   return await snsContract.mint(nameRemoveSuffix(name)).send({
     feeLimit: 100_000_000,
     callValue: value,
