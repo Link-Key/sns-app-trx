@@ -67,12 +67,22 @@ html {
   color: #fff;
   background-color: #35495e;
 }
-.el-main{
+
+.el-main {
   overflow: hidden !important;
+  padding: 0 !important;
 }
-.main-container {
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
+.el-dialog {
+  border-radius: 16px !important;
+}
+.el-dialog__body {
+  padding: 10px 25px !important;
+}
+.el-dialog__title {
+  font-weight: bold;
+  color: #c63127 !important;
+}
+.el-input.is-disabled .el-input__inner {
+  color: rgba(198, 49, 39, 0.50196) !important;
 }
 </style>

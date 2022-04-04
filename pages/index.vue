@@ -1,8 +1,13 @@
 <template>
   <div class="container">
+    <div class="bigLogoContainer">
+      <div class="bigLogo"></div>
+      <div class="bigLogoText">EVERYONE NEEDS TO REGISTER FOR THE WEB3.0</div>
+    </div>
+
     <div style="padding: 15px" class="input-container">
       <el-input
-        placeholder="Please input your search name"
+        placeholder="Search name"
         v-model="inputName"
         class="input-with-select"
       >
@@ -13,10 +18,28 @@
         slot="append"
         @click="searchDomainName"
         icon="el-icon-search"
+        :disabled="inputName.length === 0"
       >
         Search
       </el-button>
     </div>
+
+    <el-dialog
+      title="Register Name"
+      :visible.sync="dialogVisible"
+      width="300px"
+      center
+      :before-close="handleClose"
+      top="30vh"
+      custom-class="modalContainer"
+    >
+      <el-input v-model="inputName" disabled>{{ this.inputName }}</el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="registry" :loading="mintLoading">
+          Mint
+        </el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -33,7 +56,7 @@ import { sampleTx } from "../plugins/walletConnect";
 
 export default {
   components: {
-    card,
+    // card,
   },
 
   async mounted() {
@@ -44,6 +67,8 @@ export default {
     return {
       posts: [],
       inputName: "",
+      dialogVisible: false,
+      mintLoading: false,
     };
   },
   methods: {
@@ -52,13 +77,36 @@ export default {
     },
     async searchDomainName() {
       let existStatus;
-      existStatus = await recordExists(this.inputName);
-      console.log("exist", existStatus);
+      try {
+        existStatus = await recordExists(this.inputName);
+        console.log("exist", existStatus);
+        if (existStatus) {
+          this.$message({
+            message: "Name registered",
+            center: true,
+            type: "warning",
+          });
+        } else {
+          this.dialogVisible = true;
+        }
+      } catch (e) {
+        console.log("recordExists:", e);
+      }
     },
     async registry() {
+      this.mintLoading = true;
       let mintStatus;
-      mintStatus = await registry(this.inputName + ".key");
-      console.log("mint status", mintStatus);
+      try {
+        mintStatus = await registry(this.inputName + ".key");
+        console.log("mint status", mintStatus);
+      } catch (e) {
+        console.log("registry error:", e);
+      }
+      this.mintLoading = false;
+      this.dialogVisible = false;
+    },
+    handleClose() {
+      this.dialogVisible = false;
     },
   },
 };
@@ -66,75 +114,54 @@ export default {
 
 <style>
 .container {
+  position: relative;
   display: flex;
   width: 100vw;
   height: 100vh;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.bigLogoContainer {
+  position: absolute;
+  top: 20vh;
 }
 
-.subtitle {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  display: block;
-  font-weight: 150;
-  font-size: 40px;
-  color: #35495e;
-  letter-spacing: 1px;
+.bigLogoContainer .bigLogoText {
+  font-family: Overpass;
+  font-weight: 800;
+  font-size: 18px;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgb(255, 255, 255);
+  letter-spacing: 1.8px;
 }
 
-.el-row {
-  margin-bottom: 20px;
+.bigLogoContainer .bigLogo {
+  width: 223px;
+  height: 164px;
+  margin: 20px auto;
+  background-image: url("../assets/SNSHomeImg.svg");
 }
 
-.el-col {
-  border-radius: 4px;
+.el-button {
+  border-radius: 16px;
 }
 
-.bg-purple-white {
-  background: #fff;
-}
-
-.bg-purple {
-  background: #d3dce6;
-}
-
-.bg-purple-light {
-  background: #e5e9f2;
-}
-
-.grid-content {
-  border-radius: 4px;
-  min-height: 200px;
-  display: block;
-}
-
-.row-bg {
-  padding: 10px 0;
-  background-color: #f9fafc;
-}
-
+/* input container styles */
 .input-container {
   display: flex;
   max-width: 60vw;
   margin: 0 auto;
+  justify-content: center;
 }
 
+/* input styles */
 .input-with-select {
   height: 60px;
   margin-right: 10px;
 }
-
 .input-with-select > input {
   width: 40vw;
   height: 60px;
@@ -143,11 +170,14 @@ export default {
   font-weight: 500;
   border-radius: 16px;
 }
-
 .el-input__inner:focus {
   border: 1px solid #c63127;
+  transition: all 0.3s ease;
 }
-
+.el-input__inner:focus::placeholder {
+  color: transparent;
+  transition: all 0.3s ease;
+}
 .el-input__inner::placeholder {
   font-size: 16px;
   font-weight: 500;
@@ -155,28 +185,117 @@ export default {
 }
 /* 谷歌 */
 .el-input__inner::-webkit-input-placeholder {
+  font-size: 16px;
+  font-weight: 500;
   color: rgba(198, 49, 39, 0.5);
 }
 /* 火狐 */
 .el-input__inner:-moz-placeholder {
+  font-size: 16px;
+  font-weight: 500;
   color: rgba(198, 49, 39, 0.5);
 }
 /*ie*/
 .el-input__inner:-ms-input-placeholder {
+  font-size: 16px;
+  font-weight: 500;
   color: rgba(198, 49, 39, 0.5);
 }
-
 .el-input__inner::placeholder:focus {
+  font-size: 16px;
+  font-weight: 500;
   color: rgb(198, 49, 39);
 }
 
-.el-button {
+/* button styles */
+.input-container .el-button {
   width: 150px;
   height: 60px;
   border-radius: 16px;
+  font-weight: bold;
+  color: #c63127;
+  border: 1px solid #fff;
+  background-color: #fff;
+}
+.input-container .el-button[disabled="disabled"] {
+  border: 1px solid #fff;
+  color: #c6312780;
+}
+.input-container .el-icon-search {
+  font-weight: bold;
+}
+.input-container .el-button:hover {
+  color: #fff;
+  border: 1px solid #c63127;
+  background-color: #c63127;
+  transition: all 0.3s ease;
+}
+.input-container .el-button[disabled="disabled"]:hover {
+  color: #c0c4cc;
+  border: 1px solid #ebeef5;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
 }
 
-.el-button:hover {
-  
+/* modal styles */
+.modalContainer {
+  border-radius: 16px;
+}
+.modalContainer .el-dialog__title {
+  font-weight: bold;
+  color: #c63127;
+}
+.modalContainer .el-dialog__body {
+  padding: 10px 25px;
+}
+.modalContainer .el-input.is-disabled .el-input__inner {
+  color: #c6312780;
+}
+
+@media screen and (max-width: 768px) {
+  .bigLogoContainer {
+    position: absolute;
+    top: 2vh;
+  }
+  .input-container {
+    width: 60vw;
+  }
+  .input-with-select > input {
+    width: 50vw;
+    height: 6vh;
+  }
+  .el-input__inner::placeholder {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(198, 49, 39, 0.5);
+  }
+  /* 谷歌 */
+  .el-input__inner::-webkit-input-placeholder {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(198, 49, 39, 0.5);
+  }
+  /* 火狐 */
+  .el-input__inner:-moz-placeholder {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(198, 49, 39, 0.5);
+  }
+  /*ie*/
+  .el-input__inner:-ms-input-placeholder {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(198, 49, 39, 0.5);
+  }
+
+  .el-input__inner::placeholder:focus {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(198, 49, 39);
+  }
+  .input-container .el-button {
+    height: 6vh;
+    font-size: 13px;
+  }
 }
 </style>
