@@ -1,77 +1,81 @@
 <template>
   <div class="container">
-    <el-row>
-      <el-col :span="24">
-        <div class="grid-content bg-purple-white">
-          <div style="padding: 15px;" class="input-container">
-            <el-input placeholder="请输入内容" v-model="inputName" class="input-with-select">
-              <!--              <el-select v-model="select" slot="prepend" placeholder="请选择">-->
-              <!--                <el-option label="Address" value="1"></el-option>-->
-              <!--                <el-option label="订单号" value="2"></el-option>-->
-              <!--                <el-option label="用户电话" value="3"></el-option>-->
-              <!--              </el-select>-->
-              <el-button slot="append" icon="el-icon-search" @click="searchDomainName"></el-button>
-            </el-input>
-          </div>
-        </div>
-        <el-button type="primary" @click="registry">mint</el-button>
-      </el-col>
-    </el-row>
-  </div>
+    <div style="padding: 15px" class="input-container">
+      <el-input
+        placeholder="Please input your search name"
+        v-model="inputName"
+        class="input-with-select"
+      >
+      </el-input>
 
+      <el-button
+        :loading="false"
+        slot="append"
+        @click="searchDomainName"
+        icon="el-icon-search"
+      >
+        Search
+      </el-button>
+    </div>
+  </div>
 </template>
 
 <script>
+import "~/static/reset.css";
 import card from "~/components/card.vue";
-import {fetchAllBooks, setLibraryContract, setupTronWeb} from "../plugins/utils"
-import {recordExists, registry} from "../plugins/sns"
-import {sampleTx} from "../plugins/walletConnect"
+import {
+  fetchAllBooks,
+  setLibraryContract,
+  setupTronWeb,
+} from "../plugins/utils";
+import { recordExists, registry } from "../plugins/sns";
+import { sampleTx } from "../plugins/walletConnect";
 
 export default {
   components: {
-    card
+    card,
   },
 
   async mounted() {
-    // get tronWeb object 
+    // get tronWeb object
     setupTronWeb();
-
   },
   data() {
     return {
       posts: [],
-      inputName: ''
+      inputName: "",
     };
   },
   methods: {
     async sendTx() {
-      await sampleTx()
+      await sampleTx();
     },
     async searchDomainName() {
-      let existStatus
-      existStatus = await recordExists(this.inputName)
-      console.log("exist", existStatus)
+      let existStatus;
+      existStatus = await recordExists(this.inputName);
+      console.log("exist", existStatus);
     },
     async registry() {
-      let mintStatus
-      mintStatus = await registry(this.inputName + '.key')
-      console.log("mint status", mintStatus)
-    }
-  }
+      let mintStatus;
+      mintStatus = await registry(this.inputName + ".key");
+      console.log("mint status", mintStatus);
+    },
+  },
 };
 </script>
 
 <style>
 .container {
-  background-color: #f9fafc;
-  height: 100%;
-  width: 100%;
-  padding: 40px;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-  "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
@@ -81,7 +85,7 @@ export default {
 
 .subtitle {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-  "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 150;
   font-size: 40px;
@@ -121,8 +125,58 @@ export default {
 }
 
 .input-container {
-  max-width: 400px;
+  display: flex;
+  max-width: 60vw;
   margin: 0 auto;
 }
 
+.input-with-select {
+  height: 60px;
+  margin-right: 10px;
+}
+
+.input-with-select > input {
+  width: 40vw;
+  height: 60px;
+  color: #c63127;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 16px;
+}
+
+.el-input__inner:focus {
+  border: 1px solid #c63127;
+}
+
+.el-input__inner::placeholder {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(198, 49, 39, 0.5);
+}
+/* 谷歌 */
+.el-input__inner::-webkit-input-placeholder {
+  color: rgba(198, 49, 39, 0.5);
+}
+/* 火狐 */
+.el-input__inner:-moz-placeholder {
+  color: rgba(198, 49, 39, 0.5);
+}
+/*ie*/
+.el-input__inner:-ms-input-placeholder {
+  color: rgba(198, 49, 39, 0.5);
+}
+
+.el-input__inner::placeholder:focus {
+  color: rgb(198, 49, 39);
+}
+
+.el-button {
+  width: 150px;
+  height: 60px;
+  border-radius: 16px;
+}
+
+.el-button:hover {
+  
+}
 </style>

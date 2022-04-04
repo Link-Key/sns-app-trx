@@ -1,8 +1,12 @@
 <template>
-  <div>
-    <navbar-section/>
-    <nuxt />
-  </div>
+  <el-container>
+    <el-header>
+      <NavbarSection />
+    </el-header>
+    <el-main class="main-container">
+      <nuxt />
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -10,15 +14,15 @@ import NavbarSection from "~/components/navbar.vue";
 
 export default {
   components: {
-    NavbarSection
+    NavbarSection,
   },
-}
+};
 </script>
 
 <style>
 html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -62,5 +66,13 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+.el-main{
+  overflow: hidden !important;
+}
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
 }
 </style>
