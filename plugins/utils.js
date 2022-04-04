@@ -1,6 +1,6 @@
 //import LibraryABI from './libraryABI'
 import {setup as setupSNS} from './sns'
-import {contractAddress as SNSResolverContractAddress} from './sns.resolver'
+import {setup as setupSNSResolver} from './sns.resolver'
 
 let account = null
 // let libraryContractAddress = 'TZJbkRf2GCXQds2MzopQ3WhddXyWQGS8Ny' // Paste Contract address here
@@ -23,7 +23,7 @@ export function getSNSResolverInstance() {
 }
 
 export function setupTronWeb() {
-  // Obtain the tronweb object injected by tronLink
+  // Obtain the tronWeb object injected by tronLink
   var obj = setInterval(async () => {
     if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
       clearInterval(obj)
@@ -31,7 +31,7 @@ export function setupTronWeb() {
       await setup()
       console.log("tronWeb successfully detected!")
       console.log("[tronWeb]", tronWeb)
-      console.log("[tronWeb.]", tronWeb.defaultAddress.base58)
+      console.log("[tronWeb.address]", tronWeb.defaultAddress.base58)
       // console.log("address: ", tronWeb.trx.getAccount(address));
     }
   }, 10)
@@ -52,7 +52,7 @@ export async function setup() {
   }
 
   snsContract = await setupSNS();
-  snsResolverContract = new SNSResolver();
+  snsResolverContract = new setupSNSResolver();
 }
 
 export function currentNetwork() {
