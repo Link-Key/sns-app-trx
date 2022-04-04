@@ -7,7 +7,7 @@
     </div>
     <ul class="nav-menu">
       <li>
-        <a>My Account</a>
+        <a @click="dispalyMycount">My Account</a>
       </li>
     </ul>
     <div class="burger">
@@ -15,15 +15,45 @@
       <div class="middle-line"></div>
       <div class="bottom-line"></div>
     </div>
+    <el-dialog
+      title="My Account"
+      :visible.sync="myAccountVisible"
+      width="300px"
+      top="40vh"
+      center
+      :before-close="closeMyAcctDialog"
+      custom-class="myAcctDialog"
+    >
+      <div v-loading="myAcctLoading">
+        <el-input v-model="myName" :disabled="true"></el-input>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-link
+          type="primary"
+          href="https://baidu.com"
+          target="_blank"
+          @click="dialogVisible = false"
+          >View on APENFT</el-link
+        >
+      </span>
+    </el-dialog>
   </nav>
 </template>
 
 <script>
 import BookForm from "~/components/bookForm.vue";
 import { accountAddress } from "~/plugins/utils";
-import { initWalletConnect } from "~/plugins/walletConnect";
+import { initWalletConnect, recordExists } from "~/plugins/walletConnect";
 
 export default {
+  data() {
+    return {
+      address: null,
+      myAccountVisible: false,
+      myAcctLoading: false,
+      myName: "No domain name",
+    };
+  },
   mounted() {
     // get hambuger btn
     const burger = document.querySelector(".burger");
@@ -53,11 +83,6 @@ export default {
       });
     });
   },
-  data() {
-    return {
-      address: null,
-    };
-  },
   components: {
     BookForm,
   },
@@ -65,6 +90,26 @@ export default {
     walletConnect() {
       // TODO: connect to walletconnect
       initWalletConnect();
+    },
+    dispalyMycount() {
+      console.log("close menu");
+      this.myAccountVisible = true;
+      this.closeMenu();
+    },
+    closeMenu() {
+      // get hambuger btn
+      const burger = document.querySelector(".burger");
+      // get navbar menu
+      const navMenu = document.querySelector(".nav-menu");
+
+      // hambuger btn
+      burger.classList.remove("active");
+      // navbar menu switch
+      navMenu.classList.remove("open");
+    },
+    closeMyAcctDialog() {
+      this.myAcctLoading = false;
+      this.myAccountVisible = false;
     },
   },
 };
@@ -129,7 +174,7 @@ nav {
 }
 
 .nav-menu li > a:hover {
-  color: #C63127;
+  color: #c63127;
 }
 
 .burger div {
@@ -148,25 +193,27 @@ nav {
 @media screen and (max-width: 768px) {
   .burger {
     display: block;
+    z-index: 999;
   }
 
   /* 小屏幕菜单显示位置为右侧抽屉形式 */
   .nav-menu {
     display: none;
     position: absolute;
-    top: 60px;
+    top: 0;
     right: 0;
     bottom: 0;
     width: 100vw;
-    height: calc(100vh - 60px);
+    height: 100vh;
 
-    background-color: rgb(234, 96, 96);
+    background-color: #151515;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
 
     /* 动画 */
     transform: translateX(100%);
+    z-index: 999;
   }
 
   /* 菜单打开时，滑到初始位置 */
@@ -181,6 +228,10 @@ nav {
     /* 上下间距 */
     margin: 3vh;
     opacity: 1;
+  }
+
+  .nav-menu li:first-child {
+    margin-top: 60px;
   }
 
   /* 汉堡按钮被点开时，设置按钮过渡 */
@@ -203,6 +254,10 @@ nav {
     opacity: 0;
     transform: translateX(10px);
     transition: 0.3s ease-in-out;
+  }
+
+  .myAcctDialog .el-input .el-input__inner.is-disabled {
+    color: rgba(198, 49, 39, 0.5);
   }
 
   /* 菜单项滑入动画 */
