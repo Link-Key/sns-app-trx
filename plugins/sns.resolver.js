@@ -19,7 +19,7 @@ export async function setup() {
   } else if (currentNetwork() == 'shasta') {
     SNSResolver = await tronWebInstance().contract().at(contractAddress.shasta.registry);
   }
-  return snsContract;
+  return SNSResolver;
 }
 
 /* Get the raw Ethers contract object */
