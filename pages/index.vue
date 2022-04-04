@@ -24,8 +24,6 @@
 import "~/static/reset.css";
 import card from "~/components/card.vue";
 import {
-  fetchAllBooks,
-  setLibraryContract,
   setupTronWeb,
 } from "../plugins/utils";
 import { recordExists, registry } from "../plugins/sns";

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { postBookInfo } from "~/plugins/utils";
+// import { postBookInfo } from "~/plugins/utils";
 
 export default {
   components: {},
@@ -61,7 +61,7 @@ export default {
   methods: {
     postAd() {
       // convert price from TRX to SUN
-      postBookInfo(this.title,this.description,tronWeb.toSun(this.price));
+      // postBookInfo(this.title,this.description,tronWeb.toSun(this.price));
     }
   }
 };
