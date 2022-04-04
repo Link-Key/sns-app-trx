@@ -29,6 +29,7 @@ export function setupTronWeb() {
       tronWeb = window.tronWeb
       await setup()
       console.log("tronWeb successfully detected!")
+      console.log("address: ", tronWeb.address);
     }
   }, 10)
   setTimeout('', 3000);
