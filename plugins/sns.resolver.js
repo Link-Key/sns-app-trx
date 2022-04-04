@@ -1,4 +1,4 @@
-import {currentNetwork, nameRemoveSuffix, tronWebInstance} from './utils'
+import {currentNetwork, getFeeLimit, nameRemoveSuffix, tronWebInstance} from './utils'
 
 /* Utils */
 let SNSResolver
@@ -38,7 +38,7 @@ export async function setAllProperties(name, recordsStr) {
     nameRemoveSuffix(name),
     recordsStr
   ).send({
-    feeLimit: 100_000_000,
+    feeLimit: getFeeLimit(),
     callValue: value,
     shouldPollResponse: true
   })
