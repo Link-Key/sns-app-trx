@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav class="nav-container">
     <div class="logoContainer">
       <img class="tronLogo" src="../assets/tronLogo.svg" />
       <span class="combition">X</span>
@@ -92,7 +92,6 @@ export default {
       initWalletConnect();
     },
     dispalyMycount() {
-      console.log("close menu");
       this.myAccountVisible = true;
       this.closeMenu();
     },

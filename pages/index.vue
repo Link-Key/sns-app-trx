@@ -1,12 +1,6 @@
 <template>
   <div class="container">
     <div class="bigLogoContainer">
-      <el-alert
-        class="alert"
-        title="Please connect to TRON Shasta test network !"
-        type="warning"
-      >
-      </el-alert>
       <div class="bigLogo"></div>
       <div class="bigLogoText">EVERYONE NEEDS TO REGISTER FOR THE WEB3.0</div>
     </div>
@@ -64,6 +58,12 @@ export default {
   async mounted() {
     // get tronWeb object
     setupTronWeb();
+    this.$message({
+      showClose: true,
+      message: "Please connect to TRON Shasta test network !",
+      type: "warning",
+      duration: 0,
+    });
   },
   data() {
     return {
@@ -120,6 +120,7 @@ export default {
   display: flex;
   width: 100vw;
   height: 100vh;
+  min-height: 900px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -128,11 +129,6 @@ export default {
 .bigLogoContainer {
   position: absolute;
   top: 20vh;
-}
-
-.bigLogoContainer .alert {
-  position: absolute;
-  top: -250px;
 }
 
 .bigLogoContainer .bigLogoText {
@@ -264,7 +260,7 @@ export default {
     position: absolute;
     top: 2vh;
   }
-  .bigLogoContainer .alert {
+  .alert {
     top: -12px;
   }
   .input-container {
