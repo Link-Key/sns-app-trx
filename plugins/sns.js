@@ -1,12 +1,11 @@
-import {nameRemoveSuffix, tronWebInstance} from './utils'
-import {SNSResolver} from "./sns.resolver";
+import {currentNetwork, nameRemoveSuffix, tronWebInstance} from './utils'
 
 /* Utils */
 let snsContract = null
 
 export const contractAddress = {
-  main: {
-    registry: ''
+  shasta: {
+    registry: 'TQzS8iHCsTH9a5Ko16N9rSZ8EpsvoVMTDK'
   },
   nile: {
     registry: 'TRFf84GkYFx6NHHjoKUTHxEPYEKuRqb69D'
@@ -14,8 +13,12 @@ export const contractAddress = {
 }
 
 export async function setup() {
-  snsContract = await tronWebInstance().contract().at(contractAddress.nile.registry);
-  console.log("await getRegisteredPrice()", await getRegisteredPrice())
+  // TODO: obtain current network,auto switch
+  if (currentNetwork() == 'nile') {
+    snsContract = await tronWebInstance().contract().at(contractAddress.nile.registry);
+  } else if (currentNetwork() == 'shasta') {
+    snsContract = await tronWebInstance().contract().at(contractAddress.shasta.registry);
+  }
   return snsContract;
 }
 
@@ -24,7 +27,7 @@ export async function setup() {
 
 //registry
 export async function registry(name) {
-  const value = await getRegisteredPrice()
+  let value = await getRegisteredPrice()
   return await snsContract.mint(nameRemoveSuffix(name)).send({
     feeLimit: 100_000_000,
     callValue: value,

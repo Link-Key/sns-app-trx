@@ -29,7 +29,7 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 
-import { borrowBook, web3 } from "~/plugins/utils";
+// import { borrowBook, web3 } from "~/plugins/utils";
 
 export default {
   components: {
@@ -62,7 +62,7 @@ export default {
       // price calculation
       const totalPrice =tronWeb.toSun(this.bookData.price) * (endDay - startDay)
       // call borrowBook function of contract 
-      borrowBook(this.bookData.id, startDay, endDay, totalPrice)
+      // borrowBook(this.bookData.id, startDay, endDay, totalPrice)
     }
   }
 };
