@@ -1,6 +1,12 @@
 <template>
   <div class="container">
     <div class="bigLogoContainer">
+      <el-alert
+        class="alert"
+        title="Please connect to TRON Shasta test network !"
+        type="warning"
+      >
+      </el-alert>
       <div class="bigLogo"></div>
       <div class="bigLogoText">EVERYONE NEEDS TO REGISTER FOR THE WEB3.0</div>
     </div>
@@ -46,9 +52,7 @@
 <script>
 import "~/static/reset.css";
 import card from "~/components/card.vue";
-import {
-  setupTronWeb,
-} from "../plugins/utils";
+import { setupTronWeb } from "../plugins/utils";
 import { recordExists, registry } from "../plugins/sns";
 import { sampleTx } from "../plugins/walletConnect";
 
@@ -124,6 +128,11 @@ export default {
 .bigLogoContainer {
   position: absolute;
   top: 20vh;
+}
+
+.bigLogoContainer .alert {
+  position: absolute;
+  top: -250px;
 }
 
 .bigLogoContainer .bigLogoText {
@@ -254,6 +263,9 @@ export default {
   .bigLogoContainer {
     position: absolute;
     top: 2vh;
+  }
+  .bigLogoContainer .alert {
+    top: -12px;
   }
   .input-container {
     width: 60vw;
