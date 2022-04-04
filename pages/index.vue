@@ -1,27 +1,31 @@
 <template>
   <div class="container">
-    <div style="padding: 15px" class="input-container">
-      <el-input
-        placeholder="请输入内容"
-        v-model="inputName"
-        class="input-with-select"
-      >
-        <el-button
-          slot="append"
-          icon="el-icon-search"
-          @click="searchDomainName"
-        ></el-button>
-      </el-input>
-    </div>
+    <el-row>
+      <el-col :span="24">
+        <div class="grid-content bg-purple-white">
+          <div style="padding: 15px;" class="input-container">
+            <el-input placeholder="请输入内容" v-model="inputName" class="input-with-select">
+              <!--              <el-select v-model="select" slot="prepend" placeholder="请选择">-->
+              <!--                <el-option label="Address" value="1"></el-option>-->
+              <!--                <el-option label="订单号" value="2"></el-option>-->
+              <!--                <el-option label="用户电话" value="3"></el-option>-->
+              <!--              </el-select>-->
+              <el-button slot="append" icon="el-icon-search" @click="searchDomainName"></el-button>
+            </el-input>
+          </div>
+        </div>
+        <el-button type="primary" @click="registry">mint</el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import "~/static/reset.css";
 import card from "~/components/card.vue";
-import { fetchAllBooks, setLibraryContract, getTronWeb } from "~/plugins/utils";
-import { sampleTx } from "~/plugins/walletConnect";
-import {} from "~/plugins/sns";
+import {fetchAllBooks, setLibraryContract, setupTronWeb} from "../plugins/utils"
+import {recordExists, registry} from "../plugins/sns"
+import {sampleTx} from "../plugins/walletConnect"
 
 export default {
   components: {
@@ -29,12 +33,9 @@ export default {
   },
 
   async mounted() {
-    // get tronWeb object
-    this.posts = getTronWeb();
-    // init contract object
-    // await setLibraryContract();
-    // fetch all books
-    // const books = await fetchAllBooks();
+    // get tronWeb object 
+    setupTronWeb();
+
   },
   data() {
     return {
@@ -47,9 +48,16 @@ export default {
       await sampleTx();
     },
     async searchDomainName() {
-      await queryDomainName(this.inputName);
+      let existStatus
+      existStatus = await recordExists(this.inputName)
+      console.log("exist", existStatus)
     },
-  },
+    async registry() {
+      let mintStatus
+      mintStatus = await registry(this.inputName + '.key')
+      console.log("mint status", mintStatus)
+    }
+  }
 };
 </script>
 
