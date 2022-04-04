@@ -9,8 +9,13 @@ let snsContract = null
 let snsResolverContract = null
 let tronWeb = null
 let tronNetwork = null
+let feeLimit = 1000_000_000
 
-export const accountAddress = () => {
+export const getFeeLimit = () => {
+  return feeLimit
+}
+
+export function getAccount() {
   return account
 }
 

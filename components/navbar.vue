@@ -2,12 +2,12 @@
   <nav class="nav-container">
     <div class="logoContainer">
       <img class="tronLogo" src="../assets/tronLogo.svg" />
-      <span class="combition">X</span>
+      <span class="combition">|</span>
       <img class="snsLogo" src="../assets/linkkeyFavicon1.png" />
     </div>
     <ul class="nav-menu">
       <li>
-        <a @click="dispalyMycount">My Account</a>
+        <a @click="dispalyMycount">My Domain Name</a>
       </li>
     </ul>
     <div class="burger">
@@ -16,7 +16,7 @@
       <div class="bottom-line"></div>
     </div>
     <el-dialog
-      title="My Account"
+      title="My Domain Name"
       :visible.sync="myAccountVisible"
       width="300px"
       top="40vh"
@@ -30,7 +30,7 @@
       <span slot="footer" class="dialog-footer">
         <el-link
           type="primary"
-          href="https://baidu.com"
+          href="https://apenft.io/account"
           target="_blank"
           @click="dialogVisible = false"
           >View on APENFT</el-link
@@ -44,6 +44,8 @@
 import BookForm from "~/components/bookForm.vue";
 import { accountAddress } from "~/plugins/utils";
 import { initWalletConnect, recordExists } from "~/plugins/walletConnect";
+import {getNameOfOwner} from "../plugins/sns";
+import {getAccount} from "../plugins/utils";
 
 export default {
   data() {
@@ -51,8 +53,11 @@ export default {
       address: null,
       myAccountVisible: false,
       myAcctLoading: false,
-      myName: "No domain name",
+      myName: "no domain name for this address",
     };
+  },
+  created() {
+
   },
   mounted() {
     // get hambuger btn
@@ -82,11 +87,16 @@ export default {
         }
       });
     });
+
   },
   components: {
     BookForm,
   },
   methods: {
+    async getDomianName() {
+      console.log("account", getAccount())
+      this.myName = await getNameOfOwner(getAccount())
+    },
     walletConnect() {
       // TODO: connect to walletconnect
       initWalletConnect();
@@ -94,6 +104,7 @@ export default {
     dispalyMycount() {
       this.myAccountVisible = true;
       this.closeMenu();
+      this.getDomianName()
     },
     closeMenu() {
       // get hambuger btn
@@ -137,22 +148,22 @@ nav {
 }
 
 .snsLogo {
-  width: 45;
-  height: 41px;
+  width: 40px;
+  /*height: 30px;*/
 }
 
 .combition {
   position: absolute;
-  top: 5px;
-  left: 79px;
+  top: -3px;
+  left: 36px;
   color: #fff;
-  font-weight: 400;
-  font-size: 24px;
+  font-weight: 200;
+  font-size: 28px;
 }
 
 .tronLogo {
-  width: 100px;
-  height: 50px;
+  width: 40px;
+  /*height: 50px;*/
 }
 
 .nav-menu {
