@@ -1,12 +1,14 @@
 <template>
   <nav>
     <div class="logoContainer">
-      <img class="tronLogo" src="../assets/tronLogo.svg"  />
+      <img class="tronLogo" src="../assets/tronLogo.svg" />
       <span class="combition">X</span>
       <img class="snsLogo" src="../assets/linkkeyFavicon1.png" />
     </div>
     <ul class="nav-menu">
-      <li>My Account</li>
+      <li>
+        <a>My Account</a>
+      </li>
     </ul>
     <div class="burger">
       <div class="top-line"></div>
@@ -95,7 +97,7 @@ nav {
   height: 41px;
 }
 
-.combition{
+.combition {
   position: absolute;
   top: 5px;
   left: 79px;
@@ -104,7 +106,7 @@ nav {
   font-size: 24px;
 }
 
-.tronLogo{
+.tronLogo {
   width: 100px;
   height: 50px;
 }
@@ -123,6 +125,11 @@ nav {
   list-style: none;
   color: #fff;
   font-weight: 600;
+  cursor: pointer;
+}
+
+.nav-menu li > a:hover {
+  color: #C63127;
 }
 
 .burger div {

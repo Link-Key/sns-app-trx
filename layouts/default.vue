@@ -67,7 +67,10 @@ html {
   color: #fff;
   background-color: #35495e;
 }
-.main-container{
+.el-main{
+  overflow: hidden !important;
+}
+.main-container {
   width: 100vw;
   height: 100vh;
   padding: 0;
