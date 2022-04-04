@@ -1,73 +1,70 @@
 <template>
   <div class="container">
-    <el-row>
-      <el-col :span="24">
-        <div class="grid-content bg-purple-white">
-          <div style="padding: 15px;" class="input-container">
-            <el-input placeholder="请输入内容" v-model="inputName" class="input-with-select">
-              <!--              <el-select v-model="select" slot="prepend" placeholder="请选择">-->
-              <!--                <el-option label="Address" value="1"></el-option>-->
-              <!--                <el-option label="订单号" value="2"></el-option>-->
-              <!--                <el-option label="用户电话" value="3"></el-option>-->
-              <!--              </el-select>-->
-              <el-button slot="append" icon="el-icon-search" @click="searchDomainName"></el-button>
-            </el-input>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
+    <div style="padding: 15px" class="input-container">
+      <el-input
+        placeholder="请输入内容"
+        v-model="inputName"
+        class="input-with-select"
+      >
+        <el-button
+          slot="append"
+          icon="el-icon-search"
+          @click="searchDomainName"
+        ></el-button>
+      </el-input>
+    </div>
   </div>
-
 </template>
 
 <script>
+import "~/static/reset.css";
 import card from "~/components/card.vue";
-import {fetchAllBooks, setLibraryContract, getTronWeb} from "~/plugins/utils"
-import {sampleTx} from "~/plugins/walletConnect"
-import {} from "~/plugins/sns"
+import { fetchAllBooks, setLibraryContract, getTronWeb } from "~/plugins/utils";
+import { sampleTx } from "~/plugins/walletConnect";
+import {} from "~/plugins/sns";
 
 export default {
   components: {
-    card
+    card,
   },
 
   async mounted() {
-    // get tronWeb object 
+    // get tronWeb object
     this.posts = getTronWeb();
     // init contract object
     // await setLibraryContract();
     // fetch all books
     // const books = await fetchAllBooks();
-
   },
   data() {
     return {
       posts: [],
-      inputName: ''
+      inputName: "",
     };
   },
   methods: {
     async sendTx() {
-      await sampleTx()
+      await sampleTx();
     },
     async searchDomainName() {
-      await queryDomainName(this.inputName)
-    }
-  }
+      await queryDomainName(this.inputName);
+    },
+  },
 };
 </script>
 
 <style>
 .container {
-  background-color: #f9fafc;
-  height: 100%;
-  width: 100%;
-  padding: 40px;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-  "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
@@ -77,7 +74,7 @@ export default {
 
 .subtitle {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-  "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 150;
   font-size: 40px;
@@ -120,5 +117,4 @@ export default {
   max-width: 400px;
   margin: 0 auto;
 }
-
 </style>
