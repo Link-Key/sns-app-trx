@@ -23,6 +23,14 @@
         Search
       </el-button>
     </div>
+    <div class="iconContainer">
+      <a href="https://tron.network/" target="_blank">
+        <img class="tronIcon" src="../assets/tronLogo.svg" alt=""
+      /></a>
+      <a href="https://apenft.io/" target="_blank">
+        <img class="apenftIcon" src="../assets/apenftIcon.svg" alt=""
+      /></a>
+    </div>
 
     <el-dialog
       title="Register Name"
@@ -238,6 +246,32 @@ export default {
   border: 1px solid #ebeef5;
   background-color: #ffffff;
   transition: all 0.3s ease;
+}
+
+/* icon container styles */
+.iconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconContainer a{
+  padding: 10px 20px;
+}
+
+.iconContainer a:hover{
+  transform: scale(1.1);
+  transition: all 0.5s;
+}
+
+.iconContainer .tronIcon {
+  width: 40px;
+}
+
+.iconContainer .apenftIcon {
+  width: 88px;
+  height: 37px;
 }
 
 /* modal styles */
