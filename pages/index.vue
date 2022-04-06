@@ -135,8 +135,7 @@ export default {
 }
 
 .bigLogoContainer {
-  position: absolute;
-  top: 20vh;
+  margin-bottom: 50px;
 }
 
 .bigLogoContainer .bigLogoText {
@@ -171,7 +170,6 @@ export default {
 /* input styles */
 .input-with-select {
   height: 60px;
-  margin-right: 10px;
 }
 .input-with-select > input {
   width: 40vw;
@@ -179,10 +177,15 @@ export default {
   color: #c63127;
   font-size: 16px;
   font-weight: 500;
-  border-radius: 16px;
+  border: 1px solid white;
+  /* border-right: 1px solid #c6312780; */
+  border-right: none;
+  border-radius: 16px 0 0 16px;
 }
 .el-input__inner:focus {
+  height: 60px;
   border: 1px solid #c63127;
+  border-right: none;
   transition: all 0.3s ease;
 }
 .el-input__inner:focus::placeholder {
@@ -220,17 +223,18 @@ export default {
 
 /* button styles */
 .input-container .el-button {
-  width: 150px;
+  /* width: 150px; */
   height: 60px;
-  border-radius: 16px;
+  border-radius: 0 16px 16px 0;
   font-weight: bold;
   color: #c63127;
-  border: 1px solid #fff;
+  border: 1px solid #c63127;
   background-color: #fff;
 }
 .input-container .el-button[disabled="disabled"] {
-  border: 1px solid #fff;
-  color: #c6312780;
+  color: #c0c4cc;
+  border: none;
+  border-left: 1px solid #c0c4cc;
 }
 .input-container .el-icon-search {
   font-weight: bold;
@@ -242,8 +246,9 @@ export default {
   transition: all 0.3s ease;
 }
 .input-container .el-button[disabled="disabled"]:hover {
-  color: #c0c4cc;
-  border: 1px solid #ebeef5;
+  color: #c6312780;
+  border: none;
+  border-left: 1px solid #c0c4cc;
   background-color: #ffffff;
   transition: all 0.3s ease;
 }
@@ -256,11 +261,11 @@ export default {
   align-items: center;
 }
 
-.iconContainer a{
+.iconContainer a {
   padding: 10px 20px;
 }
 
-.iconContainer a:hover{
+.iconContainer a:hover {
   transform: scale(1.1);
   transition: all 0.5s;
 }
