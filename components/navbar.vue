@@ -30,7 +30,7 @@
       <span slot="footer" class="dialog-footer">
         <el-link
           type="primary"
-          href="https://apenft.io/account"
+          :href="myNFTLink"
           target="_blank"
           @click="dialogVisible = false"
           >View on APENFT</el-link
@@ -44,7 +44,7 @@
 import BookForm from "~/components/bookForm.vue";
 import { accountAddress } from "~/plugins/utils";
 import { initWalletConnect, recordExists } from "~/plugins/walletConnect";
-import {getNameOfOwner} from "../plugins/sns";
+import {contractAddress, getNameOfOwner, getTokenIdOfName} from "../plugins/sns";
 import {getAccount} from "../plugins/utils";
 
 export default {
@@ -54,6 +54,7 @@ export default {
       myAccountVisible: false,
       myAcctLoading: false,
       myName: "no domain name for this address",
+      myNFTLink: "https://apenft.io/account",
     };
   },
   created() {
@@ -95,7 +96,11 @@ export default {
   methods: {
     async getDomianName() {
       console.log("account", getAccount())
-      this.myName = await getNameOfOwner(getAccount())
+      let myName = await getNameOfOwner(getAccount())
+      if (myName) {
+        this.myName = myName
+        this.myNFTLink = "https://apenft.io/assets/trontest/" + contractAddress.shasta.registry + "/" + await getTokenIdOfName(myName)
+      }
     },
     walletConnect() {
       // TODO: connect to walletconnect
