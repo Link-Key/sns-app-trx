@@ -71,6 +71,7 @@ export default {
       message: "Please connect to TRON Shasta test network !",
       type: "warning",
       duration: 0,
+      offset: 50,
     });
   },
   data() {
@@ -183,7 +184,7 @@ export default {
   border-radius: 16px 0 0 16px;
 }
 .el-input__inner:focus {
-  height: 60px;
+  /* height: 60px; */
   border: 1px solid #c63127;
   border-right: none;
   transition: all 0.3s ease;
